@@ -53,6 +53,7 @@ public class PictureServiceImpl implements PictureService {
     @Override
     public String importPictures() throws IOException {
         StringBuilder stringBuilder = new StringBuilder();
+
         PictureSeedDto[] pictureSeedDtos = gson
                 .fromJson(readPicturesFromFile(), PictureSeedDto[].class);
         //първи дебъг
@@ -72,7 +73,7 @@ public class PictureServiceImpl implements PictureService {
                             return isValid;
                         }
                 )
-                //TODO * не се е парснал добре локал дейт тайма
+
                 .map(pictureSeedDto -> {
                             Picture picture = modelMapper.map(
                                     pictureSeedDto, Picture.class

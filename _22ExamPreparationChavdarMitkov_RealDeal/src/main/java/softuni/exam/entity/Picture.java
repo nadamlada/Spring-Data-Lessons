@@ -12,7 +12,7 @@ public class Picture extends BaseEntity {
     @Column(unique = true)
     private String name;
     @Column
-    private LocalDateTime localDateTime;
+    private LocalDateTime dateAndTime;
     @ManyToOne
     private Car car;
 
@@ -32,12 +32,12 @@ public class Picture extends BaseEntity {
         this.name = name;
     }
 
-    public LocalDateTime getLocalDateTime() {
-        return localDateTime;
+    public LocalDateTime getDateAndTime() {
+        return dateAndTime;
     }
 
-    public void setLocalDateTime(LocalDateTime localDateTime) {
-        this.localDateTime = localDateTime;
+    public void setDateAndTime(LocalDateTime dateAndTime) {
+        this.dateAndTime = dateAndTime;
     }
 
     public Picture() {
