@@ -1,6 +1,6 @@
 package hiberspring.repository;
 
-//TODO
+// TODO
 public interface EmployeeCardRepository  {
 
 }
