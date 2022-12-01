@@ -58,7 +58,7 @@ public class PlayerServiceImpl implements PlayerService {
 
         Arrays.stream(playerSeedDtos)
                 .forEach(playerSeedDto -> {
-                    boolean isValid = validatorUtil.isValid(playerSeedDtos);
+                    boolean isValid = validatorUtil.isValid(playerSeedDto);
                     Player byFirstNameAndLastName = playerRepository.findByFirstNameAndLastName(
                             playerSeedDto.getFirstName(),
                             playerSeedDto.getLastName());

@@ -4,7 +4,7 @@ package hiberspring.service;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-// TODO
+// TODO ready
 public interface BranchService {
 
     Boolean branchesAreImported();

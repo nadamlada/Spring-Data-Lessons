@@ -1,6 +1,9 @@
 package hiberspring.repository;
 
-// TODO
+import org.springframework.stereotype.Repository;
+
+// TODO ready
+@Repository
 public interface EmployeeCardRepository  {
 
 }
