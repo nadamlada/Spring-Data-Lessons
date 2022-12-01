@@ -1,6 +1,6 @@
 package hiberspring.service;
 
-//TODO
+//TODO ready
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -11,6 +11,6 @@ public interface TownService {
 
     String readTownsJsonFile() throws IOException;
 
-    String importTowns(String townsFileContent) throws FileNotFoundException;
+    String importTowns(String townsFileContent) throws IOException;
 
 }
