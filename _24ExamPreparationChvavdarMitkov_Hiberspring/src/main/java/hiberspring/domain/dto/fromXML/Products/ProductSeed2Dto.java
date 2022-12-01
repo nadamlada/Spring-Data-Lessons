@@ -1,0 +1,47 @@
+package hiberspring.domain.dto.fromXML.Products;
+
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+import javax.xml.bind.annotation.*;
+
+@XmlRootElement(name = "product")
+@XmlAccessorType(XmlAccessType.FIELD)
+public class ProductSeed2Dto {
+    @XmlAttribute
+    @NotNull
+    private String name;
+    @XmlAttribute
+    @NotNull
+    @Min(value = 0)
+    private Integer clients;
+    @NotNull
+    @XmlElement(name = "branch")
+    private String branch;
+
+    public ProductSeed2Dto() {
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Integer getClients() {
+        return clients;
+    }
+
+    public void setClients(Integer clients) {
+        this.clients = clients;
+    }
+
+    public String getBranch() {
+        return branch;
+    }
+
+    public void setBranch(String branch) {
+        this.branch = branch;
+    }
+}

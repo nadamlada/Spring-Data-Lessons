@@ -1,9 +1,6 @@
 package hiberspring.domain.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "products")
@@ -12,7 +9,7 @@ public class Product extends BaseEntity {
     private String clients;
     @Column(name = "name", unique = true, nullable = false)
     private String name;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE)
     private Branch branch;
 
     public Product() {

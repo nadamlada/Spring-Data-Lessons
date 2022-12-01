@@ -81,4 +81,9 @@ public class EmployeeCardServiceImpl implements EmployeeCardService {
 
         return stringBuilder.toString().trim();
     }
+
+    @Override
+    public EmployeeCard getCardByNumber(String number) {
+       return employeeCardRepository.findByNumber(number);
+    }
 }

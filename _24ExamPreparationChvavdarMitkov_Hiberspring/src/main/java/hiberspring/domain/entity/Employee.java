@@ -11,9 +11,9 @@ public class Employee extends BaseEntity {
     private String lastName;
     @Column(name = "position")
     private String position;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE)
     private Branch branch;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.MERGE)
     private EmployeeCard card;
 
     public Employee() {

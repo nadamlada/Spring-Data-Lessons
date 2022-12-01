@@ -27,7 +27,7 @@ public class BranchServiceImpl implements BranchService {
     private final ModelMapper modelMapper;
     private final ValidationUtil validationUtil;
     private final Gson gson;
-    //щом импотваш клава в ентити бранч на таун cascade = {cascadeType.Merge}
+    //щом импотваш класа -> в ентити бранч на таун (cascade = CascadeType.MERGE)
     private final TownService townService;
 
     @Autowired
@@ -92,5 +92,10 @@ public class BranchServiceImpl implements BranchService {
                 });
 
         return stringBuilder.toString().trim();
+    }
+
+    @Override
+    public Branch getByStringName(String name) {
+        return branchRepository.findByName(name);
     }
 }

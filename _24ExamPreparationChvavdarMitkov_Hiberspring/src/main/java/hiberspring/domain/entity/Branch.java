@@ -7,7 +7,7 @@ import javax.persistence.*;
 public class Branch extends BaseEntity {
     @Column(name = "name", unique = true, nullable = false)
     private String name;
-    @ManyToOne(cascade = {CascadeType.MERGE})
+    @ManyToOne(cascade = CascadeType.MERGE)
     private Town town;
 
     public Branch() {
