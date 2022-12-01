@@ -1,12 +1,13 @@
 package hiberspring.service.impl;
 
 import com.google.gson.Gson;
-import hiberspring.domain.dto.TownSeedDto;
+import hiberspring.domain.dto.fromJson.TownSeedDto;
 import hiberspring.domain.entity.Town;
 import hiberspring.repository.TownRepository;
 import hiberspring.service.TownService;
-import hiberspring.util.ValidationUtilImpl;
+import hiberspring.util.ValidationUtil;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -19,12 +20,13 @@ import static hiberspring.common.GlobalConstants.*;
 @Service
 public class TownServiceImpl implements TownService {
     private final TownRepository townRepository;
-    private final ValidationUtilImpl validationUtil;
+    private final ValidationUtil validationUtil;
     private final ModelMapper modelMapper;
     private final Gson gson;
 
+    @Autowired
     public TownServiceImpl(TownRepository townRepository,
-                           ValidationUtilImpl validationUtil,
+                           ValidationUtil validationUtil,
                            ModelMapper modelMapper,
                            Gson gson) {
         this.townRepository = townRepository;
@@ -32,6 +34,7 @@ public class TownServiceImpl implements TownService {
         this.modelMapper = modelMapper;
         this.gson = gson;
     }
+
 
     @Override
     public Boolean townsAreImported() {
@@ -47,6 +50,8 @@ public class TownServiceImpl implements TownService {
 
     @Override
     public String importTowns(String townsFileContent) throws IOException {
+        //ToDo не работи
+        //https://youtu.be/Yh0WwmFBFM4
         StringBuilder stringBuilder = new StringBuilder();
 
         TownSeedDto[] townSeedDtos = gson
@@ -63,12 +68,12 @@ public class TownServiceImpl implements TownService {
 
                         stringBuilder.append(
                                 String.format(SUCCESSFUL_IMPORT_MESSAGE,
-                                        townSeedDto.getClass(),
+                                        "Town",
                                         townSeedDto, getClass().getName()
                                 )
                         );
 
-                        townRepository.save(town);
+                        townRepository.saveAndFlush(town);
                     } else {
                         stringBuilder.append(INCORRECT_DATA_MESSAGE);
                     }
@@ -78,5 +83,10 @@ public class TownServiceImpl implements TownService {
                 });
 
         return stringBuilder.toString().trim();
+    }
+
+    @Override
+    public Town getTownByName(String name) {
+        return townRepository.findByName(name);
     }
 }

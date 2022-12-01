@@ -10,6 +10,6 @@ public interface EmployeeCardService {
 
     String readEmployeeCardsJsonFile() throws IOException;
 
-    String importEmployeeCards(String employeeCardsFileContent) throws FileNotFoundException;
+    String importEmployeeCards(String employeeCardsFileContent) throws IOException;
 
 }

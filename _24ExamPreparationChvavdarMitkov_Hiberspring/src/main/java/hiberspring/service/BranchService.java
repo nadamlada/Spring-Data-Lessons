@@ -11,5 +11,5 @@ public interface BranchService {
 
     String readBranchesJsonFile() throws IOException;
 
-    String importBranches(String branchesFileContent) throws FileNotFoundException;
+    String importBranches(String branchesFileContent) throws IOException;
 }

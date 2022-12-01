@@ -71,7 +71,7 @@ public class ImportController extends BaseController {
     }
 
     @PostMapping("/branches")
-    public ModelAndView importBranchesConfirm(@RequestParam(name = "branches") String branches) throws FileNotFoundException {
+    public ModelAndView importBranchesConfirm(@RequestParam(name = "branches") String branches) throws IOException {
         System.out.println(this.branchService.importBranches(branches));
 
         return super.redirect("/import/json");
@@ -83,7 +83,7 @@ public class ImportController extends BaseController {
     }
 
     @PostMapping("/employee-cards")
-    public ModelAndView importEmployeeCardsConfirm(@RequestParam(name = "employeeCards") String employeeCards) throws FileNotFoundException {
+    public ModelAndView importEmployeeCardsConfirm(@RequestParam(name = "employeeCards") String employeeCards) throws IOException {
         System.out.println(this.employeeCardService.importEmployeeCards(employeeCards));
 
         return super.redirect("/import/json");
