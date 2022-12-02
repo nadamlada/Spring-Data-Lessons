@@ -19,6 +19,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.stream.Collectors;
 
 import static hiberspring.common.GlobalConstants.*;
 
@@ -83,7 +84,7 @@ public class EmployeeServiceImpl implements EmployeeService {
                     if (isValid && exists == null) {
                         Employee employee = modelMapper.map(employeeSeed2Dto, Employee.class);
                         Branch branch = branchService
-                                 .getByStringName(employeeSeed2Dto.getBranch());
+                                .getByStringName(employeeSeed2Dto.getBranch());
                         EmployeeCard employeeCard = employeeCardService
                                 .getCardByNumber(employeeSeed2Dto.getCard());
 
@@ -111,6 +112,20 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     public String exportProductiveEmployees() {
-        return null;
+        return
+                employeeRepository
+                        .findAllByBranchWithMoreThanOneProduct()
+                        .stream()
+                        .map(employee -> {
+                            return String.format("%nName: %s %s%n" +
+                                                 "Position: %s%n" +
+                                                 "Card Number: %s%n",
+                                    employee.getFirstName(),
+                                    employee.getLastName(),
+                                    employee.getPosition(),
+                                    employee.getCard().getNumber()
+                            );
+                        })
+                        .collect(Collectors.joining("-------------------------"));
     }
 }

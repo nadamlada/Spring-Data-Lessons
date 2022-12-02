@@ -18,6 +18,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import static hiberspring.common.GlobalConstants.INCORRECT_DATA_MESSAGE;
 import static hiberspring.common.GlobalConstants.PRODUCTS_FILE_PATH;
@@ -76,6 +78,11 @@ public class ProductServiceImpl implements ProductService {
                         Branch branch = branchService.getByStringName(
                                 productSeed2Dto.getBranch()
                         );
+
+//                        пример за мапнаве на LocalDateTime без адаптор
+//                        LocalDateTime localDateTime =
+//                                LocalDateTime.parse("30/12/2020 00:09:02",
+//                                        DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss"));
 
                         product.setBranch(branch);
 
