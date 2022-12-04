@@ -91,7 +91,35 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String exportUsersWithTheirPosts() {
-        return null;
+        StringBuilder stringBuilder = new StringBuilder();
+
+        userRepository
+                .findAllByPostsOrderByCountOfPostsDescAndUserId()
+                .forEach(user -> {
+                    stringBuilder.append(String.format(
+                            """
+                                    User: %s
+                                    Post count: %d
+                                    """,
+                            user.getUsername(),
+                            user.getPosts().size()
+                    ));
+
+                    user.getPosts()
+                            .forEach(post -> {
+                                stringBuilder.append(String.format(
+                                        """
+                                                ==Post Details:
+                                                ----Caption: %s
+                                                ----Picture Size: %.2f
+                                                """,
+                                        post.getCaption(),
+                                        post.getPicture().getSize()
+                                ));
+                            });
+                });
+
+        return stringBuilder.toString();
     }
 
     @Override

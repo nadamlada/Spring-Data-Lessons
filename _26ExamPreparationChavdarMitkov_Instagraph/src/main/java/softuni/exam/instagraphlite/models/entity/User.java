@@ -1,6 +1,7 @@
 package softuni.exam.instagraphlite.models.entity;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -11,8 +12,18 @@ public class User extends BaseEntity {
     private String password;
     @ManyToOne(optional = false, cascade = CascadeType.MERGE)
     private Picture profilePicture;
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    private List<Post>posts;
 
     public User() {
+    }
+
+    public List<Post> getPosts() {
+        return posts;
+    }
+
+    public void setPosts(List<Post> posts) {
+        this.posts = posts;
     }
 
     public String getUsername() {

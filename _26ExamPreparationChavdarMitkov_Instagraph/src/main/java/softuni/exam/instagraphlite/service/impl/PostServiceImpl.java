@@ -80,7 +80,8 @@ public class PostServiceImpl implements PostService {
                     if (valid && userByUsername != null && pictureByPath != null) {
                         Post post = modelMapper.map(postSeedDto, Post.class);
 
-                        stringBuilder.append(String.format("Successfully imported Post, made by %s",
+                        stringBuilder.append(String.format(
+                                "Successfully imported Post, made by %s",
                                 postSeedDto.getUser().getUsername()
                         ));
 
