@@ -1,0 +1,216 @@
+Spring Data Retake Exam – 17 April 2022
+SoftWeather Forecast
+
+Accurate weekend SoftWeather Forecasts for hundreds of places around the World. We provide detailed Weather Forecasts over a 3 day period updated four times a day. Our interactive weather maps can be customized to show forecasts of temperature, sunrise and sunset. The software of Weather Forecasts has crashed and the owner has turned to SoftUni for help. Now a small team led by you must take on this task and make the SoftWeather Forecast. To offer a better experience to its customers, the SoftWeather team urgently needs a good enough application that collects all the information about all weather forecasts and can, with one click, dig through the sorted best locations for the weekend.
+1.	Functionality Overview
+The application should be able to easily import hard-formatted data and support functionalities for also exporting the imported data. The application is called – SoftWeather Forecast.
+Look at the pictures below to see what must happen:
+•	The home page before importing anything:
+•	The import JSON page before importing anything:
+•	Import the countries first:
+•	Import the cities second:
+•	The import JSON page after importing both files:
+•	The import XML page before importing the given data:
+•	Import the forecasts data:
+•	The import XML page after importing the data:
+•	The home page after the data is imported:
+•	Export Sunday forecasts where city population is less than 150000 ordered by max temperature in descending and then by forecast id in asc:
+
+2.	Project Skeleton Overview
+You will be given a skeleton, containing a certain architecture (MVC) with several classes, some of which are completely empty. The Skeleton will include the files with which you will seed the database.
+3.	Model Definition
+There are 3 main models that the SoftWeather Forecast database application should contain in its functionality.
+Design them in the most appropriate way, considering the following data constraints:
+Country
+•	id – accepts integer values, a primary identification field, an auto incremented field.
+•	country name – accepts char sequence (between 2 to 60 inclusive). The values are unique in the database. Cannot be null.
+•	currency – accepts char sequences (between 2 and 20 inclusive). Cannot be null.
+City
+•	id – accepts integer values, a primary identification field, an auto incremented field.
+•	city name – a char sequence (between 2 to 60 inclusive). The values are unique in the database. Cannot be null.
+•	description – accepts very long char sequence (min 2 symbols).
+•	population – accepts number values that are more than or equal to 500. Cannot be null.
+•	Constraint: The cities table has а relation with the countries table.
+Forecast
+•	id – accepts integer values, a primary identification field, an auto incremented field.
+•	day of week – enumerated value, one of the following – FRIDAY, SATURDAY, SUNDAY. Cannot be null.
+•	max temperature – a floating point number. Must be between -20 and 60 (both numbers are INCLUSIVE). Cannot be null.
+•	min temperature – a floating point number. Must be between -50 and 40 (both numbers are INCLUSIVE). Cannot be null.
+•	sunrise – time of the sunrise. Cannot be null.
+•	sunset – time of the sunset. Cannot be null.
+•	Constraint: The forecasts table has а relation with the cities table.
+Relationships
+Your partners gave you a little hint about the more complex relationships in the database, so that you can implement it correctly.
+One Country may have many Cities, but one City may have only one Country.
+One Forecast may have only one City, but one City may have many Forecasts.
+Constraint:
+•	Name the entities and their class members exactly in the format stated above.
+•	All fields are nullable unless explicitly stated to be NOT NULL.
+
+4.	Data Import
+Use the provided files to populate the database with data. Import all the information from those files into the database.
+You are not allowed to modify the provided files.
+ANY INCORRECT data should be ignored and a message:
+ "Invalid {country / city / forecast}" should be printed.
+When the import is finished:
+"Successfully imported {country / city / forecast} {country – currency / city name -  population / day of week – max temperature}"
+
+JSON Import
+Your new colleagues have prepared some JSON data for you to import.
+Countries (countries.json)
+[
+  {
+    "countryName": "Philippines",
+    "currency": "Peso"
+  },
+  {
+    "countryName": "Finland",
+    "currency": "Euro"
+  },
+  {
+    "countryName": "X",
+    "currency": "Euro"
+  },
+  {
+    "countryName": "Turkey",
+    "currency": "T"
+  },
+  {
+    "countryName": "Sweden",
+    "currency": "Krona"
+  },
+  {
+    "countryName": "China",
+    "currency": "Yuan Renmbinbi"
+  },
+
+...
+Successfully imported country Philippines - Peso
+Successfully imported country Finland - Euro
+Invalid country
+Invalid country
+Successfully imported country Sweden - Krona
+Successfully imported country China - Yuan Renmbinbi
+Invalid country
+…
+
+Constraint:
+•	If the city name already exists in the DB return "Invalid city".
+Cities (cities.json)
+[
+  {
+    "cityName": "g",
+    "description": "ut dolor morbi vel lectus in quam fringilla rhoncus mauris",
+    "population": 325899,
+    "country": 1
+  },
+  {
+    "cityName": "Gomian",
+    "description": "ut dolor morbi vel lectus in quam fringilla rhoncus mauris",
+    "population": 325899,
+    "country": 1
+  },
+  {
+    "cityName": "Gomian",
+    "description": "ut dolor morbi vel lectus in quam fringilla rhoncus mauris",
+    "population": 325899,
+    "country": 1
+  },
+  {
+    "cityName": "Dibeet",
+    "description": "ligula nec sem duis aliquam convallis nunc proin at turpis a pede posuere nonummy integer non",
+    "population": 300378,
+    "country": 1
+  },
+  {
+    "cityName": "Mordor",
+    "description": "u",
+    "population": 325899,
+    "country": 1
+  },
+  {
+    "cityName": "Cagtotolo",
+    "description": "vitae nisi nam ultrices libero non mattis pulvinar nulla pede ullamcorper augue a suscipit",
+    "population": 276813,
+    "country": 1
+  },
+    . . .
+Invalid city
+Successfully imported city Gomian - 325899
+Invalid city
+Successfully imported city Dibeet - 300378
+Invalid city
+Successfully imported city Cagtotolo - 276813
+Invalid city
+…
+
+XML Import
+Your new colleagues have prepared some XML data for you to import.
+Constraint:
+•	If the forecasts for the same day of week of the city already exists in the DB return "Invalid forecast".
+Forecasts (forecasts.xml)
+<?xml version="1.0" encoding="UTF-8"?>
+<forecasts>
+    <forecast>
+        <day_of_week>NULL</day_of_week>
+        <max_temperature>25</max_temperature>
+        <min_temperature>-5</min_temperature>
+        <sunrise>06:12:09</sunrise>
+        <sunset>21:19:52</sunset>
+        <city>1</city>
+    </forecast>
+    <forecast>
+        <day_of_week>FRIDAY</day_of_week>
+        <max_temperature>25</max_temperature>
+        <min_temperature>-5</min_temperature>
+        <sunrise>06:12:09</sunrise>
+        <sunset>21:19:52</sunset>
+        <city>1</city>
+    </forecast>
+    <forecast>
+        <day_of_week>FRIDAY</day_of_week>
+        <max_temperature>15</max_temperature>
+        <min_temperature>-5</min_temperature>
+        <sunrise>06:13:02</sunrise>
+        <sunset>21:19:32</sunset>
+        <city>1</city>
+    </forecast>
+    <forecast>
+        <day_of_week>FRIDAY</day_of_week>
+        <max_temperature>61</max_temperature>
+        <min_temperature>-5</min_temperature>
+        <sunrise>06:12:09</sunrise>
+        <sunset>21:19:52</sunset>
+        <city>1</city>
+    </forecast>
+    <forecast>
+        <day_of_week>FRIDAY</day_of_week>
+        <max_temperature>25</max_temperature>
+        <min_temperature>-51</min_temperature>
+        <sunrise>06:12:09</sunrise>
+        <sunset>21:19:52</sunset>
+        <city>1</city>
+    </forecast>
+...
+Invalid forecast
+Successfully import forecast FRIDAY - 25.00
+Invalid forecast
+Invalid forecast
+Invalid forecast
+Successfully import forecast FRIDAY - 13.00
+Invalid forecast
+Invalid forecast
+Successfully import forecast FRIDAY - 25.00
+...
+5.	Data Export
+Get ready to export the data you have imported in the previous task. Here you will have some complex database querying. Export the data in the formats specified below.
+Export Sunday forecast from Database
+•	Extract from the database, the city name, min temperature (to second digit after decimal point), max temperature (to second digit after decimal point), sunrise and the sunset of the forecast.
+•	Filter only forecasts from sunday and from cities with less than 150000 citizens, order them by max temperature in descending order, then by the forecast id in ascending order.
+•	Return the information in this format:
+•	"City: {cityName}:
+   		-min temperature: {minTemperature}
+   		--max temperature: {maxTemperature}
+   		---sunrise: {sunrise}
+----sunset: {sunset}
+. . . "
