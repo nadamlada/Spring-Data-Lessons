@@ -17,6 +17,7 @@ import javax.xml.bind.JAXBException;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
 
 import static softuni.Constants.Paths.OFFERS_FILE_PATH;
 
@@ -99,30 +100,28 @@ public class OfferServiceImpl implements OfferService {
 
     @Override
     public String exportOffers() {
-//        StringBuilder stringBuilder = new StringBuilder();
-//        List<Offer> offers = offerRepository
-//                .lastQuery();
-//
-//        offers.forEach(offer -> {
-//
-//            stringBuilder.append(String.format(
-//            """
-//                    Agent %s %s with offer №%s:
-//                    -Apartment area: %.2f
-//                    --Town: %s
-//                    ---Price: %.2f$
-//                             """,
-//                    offer.getAgent().getFirstName(),
-//                    offer.getAgent().getLastName(),
-//                    offer.getId(),
-//                    offer.getApartment().getArea(),
-//                    offer.getApartment().getTown(),
-//                    offer.getPrice()
-//            ));
-//        });
-//
-//        return stringBuilder.toString().trim();
-//    }
-        return null;
+        StringBuilder stringBuilder = new StringBuilder();
+        List<Offer> offers = offerRepository
+                .lastQuery();
+
+        offers.forEach(offer -> {
+
+            stringBuilder.append(String.format(
+            """
+                    Agent %s %s with offer №%s:
+                    -Apartment area: %.2f
+                    --Town: %s
+                    ---Price: %.2f$
+                             """,
+                    offer.getAgent().getFirstName(),
+                    offer.getAgent().getLastName(),
+                    offer.getId(),
+                    offer.getApartment().getArea(),
+                    offer.getApartment().getTown(),
+                    offer.getPrice()
+            ));
+        });
+
+        return stringBuilder.toString().trim();
     }
 }
