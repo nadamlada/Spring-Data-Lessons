@@ -14,6 +14,7 @@ import softuni.exam.instagraphlite.util.impl.XmlParserImpl;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 @Configuration
@@ -61,6 +62,18 @@ public class ApplicationBeanConfiguration {
                         return LocalDateTime
                                 .parse(mappingContext.getSource(),
                                         DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+                                );
+                    }
+                }
+        );
+
+        modelMapper.addConverter(
+                new Converter<String, LocalTime>() {
+                    @Override
+                    public LocalTime convert(MappingContext<String, LocalTime> mappingContext) {
+                        return LocalTime
+                                .parse(mappingContext.getSource(),
+                                        DateTimeFormatter.ofPattern("HH:mm:ss")
                                 );
                     }
                 }
