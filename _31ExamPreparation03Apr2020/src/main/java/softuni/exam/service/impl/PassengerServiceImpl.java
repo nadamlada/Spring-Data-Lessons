@@ -11,7 +11,6 @@ import softuni.exam.repository.PassengerRepository;
 import softuni.exam.service.PassengerService;
 import softuni.exam.service.TownService;
 import softuni.exam.util.ValidationUtil;
-import softuni.exam.util.XmlParser;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -33,7 +32,6 @@ public class PassengerServiceImpl implements PassengerService {
                                 ValidationUtil validationUtil,
                                 ModelMapper modelMapper,
                                 Gson gson,
-                                XmlParser xmlParser,
                                 TownService townService) {
         this.passengerRepository = passengerRepository;
         this.validationUtil = validationUtil;
