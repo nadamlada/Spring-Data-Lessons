@@ -20,6 +20,7 @@ public class XmlParserImpl implements XmlParser {
     public <T> T fromFile(String filePath, Class<T> tClass) throws JAXBException, FileNotFoundException {
         jaxbContext = JAXBContext.newInstance(tClass);
         Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+
         return (T) unmarshaller.unmarshal(new FileReader(filePath));
     }
 
