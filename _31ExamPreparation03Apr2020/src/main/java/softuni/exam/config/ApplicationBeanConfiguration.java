@@ -34,7 +34,7 @@ public class ApplicationBeanConfiguration {
     }
 
     /*
-        @Bean
+         @Bean
         public ModelMapper modelMapper() {
             return new ModelMapper();
         }

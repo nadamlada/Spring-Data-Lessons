@@ -1,4 +1,4 @@
-package softuni.exam.service;
+package softuni.exam.service.impl;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -6,7 +6,8 @@ import org.springframework.stereotype.Service;
 import softuni.exam.domain.dto.fromXml.PictureSeedRoot1Dto;
 import softuni.exam.domain.entity.Picture;
 import softuni.exam.repository.PictureRepository;
-import softuni.exam.util.ValidatorUtilImpl;
+import softuni.exam.service.PictureService;
+import softuni.exam.util.impl.ValidatorUtilImpl;
 import softuni.exam.util.XmlParser;
 
 import javax.xml.bind.JAXBException;

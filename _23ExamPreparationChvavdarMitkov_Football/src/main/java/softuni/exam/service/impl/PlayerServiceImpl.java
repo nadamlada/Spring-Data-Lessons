@@ -1,4 +1,4 @@
-package softuni.exam.service;
+package softuni.exam.service.impl;
 
 import com.google.gson.Gson;
 import org.modelmapper.ModelMapper;
@@ -9,7 +9,10 @@ import softuni.exam.domain.entity.Picture;
 import softuni.exam.domain.entity.Player;
 import softuni.exam.domain.entity.Team;
 import softuni.exam.repository.PlayerRepository;
-import softuni.exam.util.ValidatorUtilImpl;
+import softuni.exam.service.PictureService;
+import softuni.exam.service.PlayerService;
+import softuni.exam.service.TeamService;
+import softuni.exam.util.impl.ValidatorUtilImpl;
 
 import javax.transaction.Transactional;
 import java.io.IOException;

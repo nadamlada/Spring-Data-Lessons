@@ -1,5 +1,6 @@
-package softuni.exam.util;
+package softuni.exam.util.impl;
 import org.springframework.stereotype.Component;
+import softuni.exam.util.XmlParser;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;

@@ -1,3 +1,5 @@
+https://youtu.be/SPAqX4zNXEU?list=PL81EeuE5g3pNJyo6-jN3eUb96f72WO51d
+
 Hibernate Exam – 28 July 2019
 Football Information
 You have been employed by the Next Level Technologies Ltd. to finish the database layer, which supports basic functionality like importing data and exporting some results.

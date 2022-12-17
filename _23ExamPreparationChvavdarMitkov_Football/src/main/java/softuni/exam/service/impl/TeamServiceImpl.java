@@ -1,4 +1,4 @@
-package softuni.exam.service;
+package softuni.exam.service.impl;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,7 +7,9 @@ import softuni.exam.domain.dto.fromXml.TeamSeedRoot11Dto;
 import softuni.exam.domain.entity.Picture;
 import softuni.exam.domain.entity.Team;
 import softuni.exam.repository.TeamRepository;
-import softuni.exam.util.ValidatorUtilImpl;
+import softuni.exam.service.PictureService;
+import softuni.exam.service.TeamService;
+import softuni.exam.util.impl.ValidatorUtilImpl;
 import softuni.exam.util.XmlParser;
 
 import javax.transaction.Transactional;

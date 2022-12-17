@@ -83,6 +83,7 @@ public class PassengerServiceImpl implements PassengerService {
                     } else {
                         stringBuilder.append("Invalid Passenger");
                     }
+
                     stringBuilder.append(System.lineSeparator());
                 });
 
