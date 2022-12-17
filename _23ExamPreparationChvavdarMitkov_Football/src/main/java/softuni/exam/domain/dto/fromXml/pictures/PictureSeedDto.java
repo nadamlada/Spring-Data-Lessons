@@ -1,4 +1,4 @@
-package softuni.exam.domain.dto.fromXml;
+package softuni.exam.domain.dto.fromXml.pictures;
 
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -8,12 +8,12 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "picture")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class PictureSeed2Dto {
+public class PictureSeedDto {
     @XmlElement(name = "url")
     @NotNull
     private String url;
 
-    public PictureSeed2Dto() {
+    public PictureSeedDto() {
     }
 
     public String getUrl() {

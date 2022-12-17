@@ -1,6 +1,6 @@
 package softuni.exam.util;
 
-public interface ValidatorUtil {
+public interface ValidationUtil {
     <E> boolean isValid(E entity);
 
 }

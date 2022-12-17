@@ -3,13 +3,13 @@ package softuni.exam.service.impl;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import softuni.exam.domain.dto.fromXml.TeamSeedRoot11Dto;
+import softuni.exam.domain.dto.fromXml.teams.TeamSeedRootDto;
 import softuni.exam.domain.entity.Picture;
 import softuni.exam.domain.entity.Team;
 import softuni.exam.repository.TeamRepository;
 import softuni.exam.service.PictureService;
 import softuni.exam.service.TeamService;
-import softuni.exam.util.impl.ValidatorUtilImpl;
+import softuni.exam.util.impl.ValidationUtilImpl;
 import softuni.exam.util.XmlParser;
 
 import javax.transaction.Transactional;
@@ -26,7 +26,7 @@ public class TeamServiceImpl implements TeamService {
             "src/main/resources/files/xml/teams.xml";
 
     private final TeamRepository teamRepository;
-    private final ValidatorUtilImpl validatorUtil;
+    private final ValidationUtilImpl validatorUtil;
     private final ModelMapper modelMapper;
     private final XmlParser xmlParser;
     //слагаме на Team entity на пикчъра cascade = CascadeType.PERSIST
@@ -34,7 +34,7 @@ public class TeamServiceImpl implements TeamService {
 
     @Autowired
     public TeamServiceImpl(TeamRepository teamRepository,
-                           ValidatorUtilImpl validatorUtil,
+                           ValidationUtilImpl validatorUtil,
                            ModelMapper modelMapper,
                            XmlParser xmlParser,
                            PictureService pictureService) {
@@ -46,24 +46,35 @@ public class TeamServiceImpl implements TeamService {
     }
 
     @Override
+    public boolean areImported() {
+        return teamRepository.count() > 0;
+    }
+
+    @Override
+    public String readTeamsXmlFile() throws IOException {
+        return Files.readString(
+                Path.of(TEAMS_FILE_PATH)
+        );
+    }
+
+    @Override
     public String importTeams() throws JAXBException, FileNotFoundException {
         StringBuilder stringBuilder = new StringBuilder();
 
-        TeamSeedRoot11Dto teamSeedRoot11Dto = xmlParser
-                .fromFile(TEAMS_FILE_PATH, TeamSeedRoot11Dto.class);
+        TeamSeedRootDto teamSeedRootDto = xmlParser
+                .fromFile(TEAMS_FILE_PATH, TeamSeedRootDto.class);
 
-        teamSeedRoot11Dto
+        teamSeedRootDto
                 .getTeams()
-                .forEach(teamSeed22Dto -> {
-                    //ToDo: не валидира правилно
-                    boolean isValid = validatorUtil.isValid(teamSeed22Dto);
-                    Team byName = teamRepository.findByName(teamSeed22Dto.getName());
+                .forEach(teamSeedDto -> {
+                    boolean isValid = validatorUtil.isValid(teamSeedDto);
+                    Team exist = teamRepository.findByName(teamSeedDto.getName());
 
-                    if (isValid && byName == null) {
-                        Team team = modelMapper.map(teamSeed22Dto, Team.class);
+                    if (isValid && exist == null) {
+                        Team team = modelMapper.map(teamSeedDto, Team.class);
 
                         Picture picture = pictureService.getPictureByUrl(
-                                teamSeed22Dto.getPicture().getUrl()
+                                teamSeedDto.getPicture().getUrl()
                         );
 
                         if (picture == null) {
@@ -77,11 +88,11 @@ public class TeamServiceImpl implements TeamService {
 
                         stringBuilder.append(
                                 String.format("Successfully imported team - %s",
-                                        teamSeed22Dto.getName()
+                                        teamSeedDto.getName()
                                 )
                         );
 
-                        teamRepository.save(team);
+                        teamRepository.saveAndFlush(team);
                     } else {
                         stringBuilder.append("Invalid team");
                     }
@@ -90,18 +101,6 @@ public class TeamServiceImpl implements TeamService {
                 });
 
         return stringBuilder.toString().trim();
-    }
-
-    @Override
-    public boolean areImported() {
-        return teamRepository.count() > 0;
-    }
-
-    @Override
-    public String readTeamsXmlFile() throws IOException {
-        return Files.readString(
-                Path.of(TEAMS_FILE_PATH)
-        );
     }
 
     @Override

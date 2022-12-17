@@ -1,4 +1,4 @@
-package softuni.exam.domain.dto.fromJson;
+package softuni.exam.domain.dto.fromJson.players;
 
 import com.google.gson.annotations.Expose;
 import org.hibernate.validator.constraints.Length;
@@ -10,7 +10,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
-public class PlayerSeedDto {
+public class PlayerSeedRootDto {
     @Expose
     @NotNull
     private String firstName;
@@ -37,7 +37,7 @@ public class PlayerSeedDto {
     @NotNull
     private TeamSeedDto team;
 
-    public PlayerSeedDto() {
+    public PlayerSeedRootDto() {
     }
 
     public String getFirstName() {

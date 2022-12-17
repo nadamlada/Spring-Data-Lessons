@@ -1,4 +1,4 @@
-package softuni.exam.domain.dto.fromXml;
+package softuni.exam.domain.dto.fromXml.teams;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -8,18 +8,18 @@ import java.util.List;
 
 @XmlRootElement(name = "teams")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class TeamSeedRoot11Dto {
+public class TeamSeedRootDto {
     @XmlElement(name = "team")
-    private List<TeamSeed22Dto> teams;
+    private List<TeamSeedDto> teams;
 
-    public TeamSeedRoot11Dto() {
+    public TeamSeedRootDto() {
     }
 
-    public List<TeamSeed22Dto> getTeams() {
+    public List<TeamSeedDto> getTeams() {
         return teams;
     }
 
-    public void setTeams(List<TeamSeed22Dto> teams) {
+    public void setTeams(List<TeamSeedDto> teams) {
         this.teams = teams;
     }
 }

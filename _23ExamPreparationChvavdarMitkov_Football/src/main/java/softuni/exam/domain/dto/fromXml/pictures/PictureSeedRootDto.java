@@ -1,4 +1,4 @@
-package softuni.exam.domain.dto.fromXml;
+package softuni.exam.domain.dto.fromXml.pictures;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -8,18 +8,18 @@ import java.util.List;
 
 @XmlRootElement(name = "pictures")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class PictureSeedRoot1Dto {
+public class PictureSeedRootDto {
     @XmlElement(name = "picture")
-    List<PictureSeed2Dto> pictures;
+    List<PictureSeedDto> pictures;
 
-    public PictureSeedRoot1Dto() {
+    public PictureSeedRootDto() {
     }
 
-    public List<PictureSeed2Dto> getPictures() {
+    public List<PictureSeedDto> getPictures() {
         return pictures;
     }
 
-    public void setPictures(List<PictureSeed2Dto> pictures) {
+    public void setPictures(List<PictureSeedDto> pictures) {
         this.pictures = pictures;
     }
 }

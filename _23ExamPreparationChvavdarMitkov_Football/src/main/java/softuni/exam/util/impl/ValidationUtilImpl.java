@@ -2,16 +2,16 @@ package softuni.exam.util.impl;
 
 
 import org.springframework.stereotype.Component;
-import softuni.exam.util.ValidatorUtil;
+import softuni.exam.util.ValidationUtil;
 
 import javax.validation.Validation;
 import javax.validation.Validator;
 
 @Component
-public class ValidatorUtilImpl implements ValidatorUtil {
+public class ValidationUtilImpl implements ValidationUtil {
     private final Validator validator;
 
-    public ValidatorUtilImpl() {
+    public ValidationUtilImpl() {
         this.validator = Validation
                 .buildDefaultValidatorFactory()
                 .getValidator();

@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import softuni.exam.domain.dto.fromJson.PlayerSeedDto;
+import softuni.exam.domain.dto.fromJson.players.PlayerSeedRootDto;
 import softuni.exam.domain.entity.Picture;
 import softuni.exam.domain.entity.Player;
 import softuni.exam.domain.entity.Team;
@@ -12,7 +12,7 @@ import softuni.exam.repository.PlayerRepository;
 import softuni.exam.service.PictureService;
 import softuni.exam.service.PlayerService;
 import softuni.exam.service.TeamService;
-import softuni.exam.util.impl.ValidatorUtilImpl;
+import softuni.exam.util.ValidationUtil;
 
 import javax.transaction.Transactional;
 import java.io.IOException;
@@ -29,7 +29,7 @@ public class PlayerServiceImpl implements PlayerService {
             "src/main/resources/files/json/players.json";
 
     private final PlayerRepository playerRepository;
-    private final ValidatorUtilImpl validatorUtil;
+    private final ValidationUtil validationUtil;
     private final ModelMapper modelMapper;
     private final Gson gson;
     //щом викаме тези чужди сървиси в плеъра на полетата team и picture (cascade = CascadeType.ALL)
@@ -38,13 +38,13 @@ public class PlayerServiceImpl implements PlayerService {
 
     @Autowired
     public PlayerServiceImpl(PlayerRepository playerRepository,
-                             ValidatorUtilImpl validatorUtil,
+                             ValidationUtil validationUtil,
                              ModelMapper modelMapper,
                              Gson gson,
                              TeamService teamService,
                              PictureService pictureService) {
         this.playerRepository = playerRepository;
-        this.validatorUtil = validatorUtil;
+        this.validationUtil = validationUtil;
         this.modelMapper = modelMapper;
         this.gson = gson;
         this.teamService = teamService;
@@ -52,24 +52,36 @@ public class PlayerServiceImpl implements PlayerService {
     }
 
     @Override
+    public boolean areImported() {
+        return playerRepository.count() > 0;
+    }
 
+    @Override
+    public String readPlayersJsonFile() throws IOException {
+        return Files.readString(
+                Path.of(PLAYERS_FILE_PATH)
+        );
+    }
+
+    @Override
     public String importPlayers() throws IOException {
         StringBuilder stringBuilder = new StringBuilder();
 
-        PlayerSeedDto[] playerSeedDtos = gson
-                .fromJson(readPlayersJsonFile(), PlayerSeedDto[].class);
+        PlayerSeedRootDto[] playerSeedDtos = gson
+                .fromJson(readPlayersJsonFile(), PlayerSeedRootDto[].class);
 
         Arrays.stream(playerSeedDtos)
                 .forEach(playerSeedDto -> {
-                    boolean isValid = validatorUtil.isValid(playerSeedDto);
-                    Player byFirstNameAndLastName = playerRepository.findByFirstNameAndLastName(
+                    boolean isValid = validationUtil.isValid(playerSeedDto);
+                    Player exist = playerRepository.findByFirstNameAndLastName(
                             playerSeedDto.getFirstName(),
                             playerSeedDto.getLastName());
 
-                    if (isValid && byFirstNameAndLastName == null) {
+                    if (isValid && exist == null) {
                         Player player = modelMapper.map(playerSeedDto, Player.class);
                         Team team = teamService.getTeamByName(playerSeedDto.getTeam().getName());
-                        Picture picture = pictureService.getPictureByUrl(playerSeedDto.getPicture().getUrl());
+                        Picture picture =
+                                pictureService.getPictureByUrl(playerSeedDto.getPicture().getUrl());
 
                         player.setPicture(picture);
                         player.setTeam(team);
@@ -93,22 +105,10 @@ public class PlayerServiceImpl implements PlayerService {
     }
 
     @Override
-    public boolean areImported() {
-        return playerRepository.count() > 0;
-    }
-
-    @Override
-    public String readPlayersJsonFile() throws IOException {
-        return Files.readString(
-                Path.of(PLAYERS_FILE_PATH)
-        );
-    }
-
-    @Override
     public String exportPlayersWhereSalaryBiggerThan() {
         StringBuilder stringBuilder = new StringBuilder();
         List<Player> players = playerRepository
-                .findAllBySalaryGreaterThanOrderBySalaryDesc(BigDecimal.valueOf(1000000));
+                .findAllBySalaryGreaterThanOrderBySalaryDesc(BigDecimal.valueOf(100000));
 
         players
                 .forEach(player -> {

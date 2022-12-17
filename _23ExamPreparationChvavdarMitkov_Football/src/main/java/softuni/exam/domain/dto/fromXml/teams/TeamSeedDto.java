@@ -1,6 +1,7 @@
-package softuni.exam.domain.dto.fromXml;
+package softuni.exam.domain.dto.fromXml.teams;
 
 import org.hibernate.validator.constraints.Length;
+import softuni.exam.domain.dto.fromXml.pictures.PictureSeedDto;
 
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlAccessType;
@@ -10,15 +11,15 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "team")
 @XmlAccessorType(XmlAccessType.FIELD)
-public class TeamSeed22Dto {
+public class TeamSeedDto {
     @XmlElement(name = "name")
     @Length(min = 3, max = 20)
     private String name;
     @XmlElement(name = "picture")
     @NotNull
-    private PictureSeed2Dto picture;
+    private PictureSeedDto picture;
 
-    public TeamSeed22Dto() {
+    public TeamSeedDto() {
     }
 
     public String getName() {
@@ -29,11 +30,11 @@ public class TeamSeed22Dto {
         this.name = name;
     }
 
-    public PictureSeed2Dto getPicture() {
+    public PictureSeedDto getPicture() {
         return picture;
     }
 
-    public void setPicture(PictureSeed2Dto picture) {
+    public void setPicture(PictureSeedDto picture) {
         this.picture = picture;
     }
 }

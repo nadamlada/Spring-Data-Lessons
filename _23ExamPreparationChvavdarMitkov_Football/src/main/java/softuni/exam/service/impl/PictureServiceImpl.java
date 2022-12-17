@@ -3,11 +3,11 @@ package softuni.exam.service.impl;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import softuni.exam.domain.dto.fromXml.PictureSeedRoot1Dto;
+import softuni.exam.domain.dto.fromXml.pictures.PictureSeedRootDto;
 import softuni.exam.domain.entity.Picture;
 import softuni.exam.repository.PictureRepository;
 import softuni.exam.service.PictureService;
-import softuni.exam.util.impl.ValidatorUtilImpl;
+import softuni.exam.util.impl.ValidationUtilImpl;
 import softuni.exam.util.XmlParser;
 
 import javax.xml.bind.JAXBException;
@@ -23,50 +23,17 @@ public class PictureServiceImpl implements PictureService {
     private final PictureRepository pictureRepository;
     private final ModelMapper modelMapper;
     private final XmlParser xmlParser;
-    private final ValidatorUtilImpl validatorUtil;
+    private final ValidationUtilImpl validatorUtil;
 
     @Autowired
     public PictureServiceImpl(PictureRepository pictureRepository,
                               ModelMapper modelMapper,
                               XmlParser xmlParser,
-                              ValidatorUtilImpl validatorUtil) {
+                              ValidationUtilImpl validatorUtil) {
         this.pictureRepository = pictureRepository;
         this.modelMapper = modelMapper;
         this.xmlParser = xmlParser;
         this.validatorUtil = validatorUtil;
-    }
-
-    @Override
-    public String importPictures() throws IOException, JAXBException {
-        StringBuilder stringBuilder = new StringBuilder();
-
-        PictureSeedRoot1Dto pictureSeedRoot1Dto =
-                xmlParser.fromFile(PICTURES_FILE_PATH, PictureSeedRoot1Dto.class);
-
-        pictureSeedRoot1Dto
-                .getPictures()
-                .forEach(pictureSeed2Dto -> {
-                    boolean isValid = validatorUtil.isValid(pictureSeed2Dto);
-                    Picture byUrl = pictureRepository.findByUrl(pictureSeed2Dto.getUrl());
-
-                    if (isValid && byUrl == null) {
-                        Picture picture = modelMapper.map(pictureSeed2Dto, Picture.class);
-
-                        stringBuilder.append(
-                                String.format("Successfully imported picture - %s",
-                                        pictureSeed2Dto.getUrl()
-                                )
-                        );
-
-                        pictureRepository.save(picture);
-                    } else {
-                        stringBuilder.append("Invalid picture");
-                    }
-
-                    stringBuilder.append(System.lineSeparator());
-                });
-
-        return stringBuilder.toString().trim();
     }
 
     @Override
@@ -79,6 +46,39 @@ public class PictureServiceImpl implements PictureService {
         return Files.readString(
                 Path.of(PICTURES_FILE_PATH)
         );
+    }
+
+    @Override
+    public String importPictures() throws IOException, JAXBException {
+        StringBuilder stringBuilder = new StringBuilder();
+
+        PictureSeedRootDto pictureSeedRootDto =
+                xmlParser.fromFile(PICTURES_FILE_PATH, PictureSeedRootDto.class);
+
+        pictureSeedRootDto
+                .getPictures()
+                .forEach(pictureSeedDto -> {
+                    boolean isValid = validatorUtil.isValid(pictureSeedDto);
+                    Picture exists = pictureRepository.findByUrl(pictureSeedDto.getUrl());
+
+                    if (isValid && exists == null) {
+                        Picture picture = modelMapper.map(pictureSeedDto, Picture.class);
+
+                        stringBuilder.append(
+                                String.format("Successfully imported picture - %s",
+                                        pictureSeedDto.getUrl()
+                                )
+                        );
+
+                        pictureRepository.saveAndFlush(picture);
+                    } else {
+                        stringBuilder.append("Invalid picture");
+                    }
+
+                    stringBuilder.append(System.lineSeparator());
+                });
+
+        return stringBuilder.toString().trim();
     }
 
     @Override

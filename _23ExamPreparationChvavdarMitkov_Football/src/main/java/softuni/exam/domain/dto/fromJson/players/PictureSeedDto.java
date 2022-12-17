@@ -1,13 +1,10 @@
-package softuni.exam.domain.dto.fromJson;
+package softuni.exam.domain.dto.fromJson.players;
 
 import com.google.gson.annotations.Expose;
 
 import javax.validation.constraints.NotNull;
 
-//@XmlRootElement(name = "picture")
-//@XmlAccessorType(XmlAccessType.FIELD)
 public class PictureSeedDto {
-    //    @XmlElement(name = "url")
     @Expose
     @NotNull
     private String url;
